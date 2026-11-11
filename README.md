@@ -1,132 +1,313 @@
 # CampusConnect – Professional College Event Management System
 
-**CampusConnect** is a complete, modern, responsive, secure, and professional College Event Management web application built with Node.js, Express.js, MongoDB (Mongoose), and Vanilla HTML5/CSS3/JavaScript.
+[![Deploy Frontend to GitHub Pages](https://github.com/Madhu74188/CampusConnect-College-Event-Management/actions/workflows/deploy.yml/badge.svg)](https://github.com/Madhu74188/CampusConnect-College-Event-Management/actions/workflows/deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/Live_Portal-GitHub_Pages-2ea44f?style=flat&logo=github)](https://madhu74188.github.io/CampusConnect-College-Event-Management/)
+[![Backend API](https://img.shields.io/badge/Backend_API-Render-46e3b7?style=flat&logo=render)](https://campusconnect-backend.onrender.com/api/health)
+[![Database](https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=flat&logo=mongodb)](https://www.mongodb.com/atlas)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**CampusConnect** is a comprehensive, production-ready, full-stack College Event Management platform built specifically for academic institutions. Engineered with **Node.js, Express.js, MongoDB (Mongoose), Vite, HTML5, CSS3, and JavaScript**, it provides role-based access for Students, Event Coordinators, and Institutional Administrators.
 
 ---
 
-## 🚀 Key Highlights & Implemented Features
+## 🌐 Live Deployments & Repository Links
 
-1. **Login Selection Screen**:
-   - Only two options displayed: **Student Portal** (with "Create Student Account" option) and **Admin / Coordinator Portal** (Staff Login).
-   - Staff login intelligently routes Coordinators and Administrators to their dedicated dashboards based on their database role.
+- **Frontend Live Portal (GitHub Pages):** [https://madhu74188.github.io/CampusConnect-College-Event-Management/](https://madhu74188.github.io/CampusConnect-College-Event-Management/)
+- **Backend API Base URL (Render):** [https://campusconnect-backend.onrender.com/api](https://campusconnect-backend.onrender.com/api)
+- **GitHub Repository:** [https://github.com/Madhu74188/CampusConnect-College-Event-Management](https://github.com/Madhu74188/CampusConnect-College-Event-Management)
 
-2. **Student Registration & Login**:
-   - Fields: Full Name, College Email, Password (min 6 characters, hashed with bcryptjs), Register Number, Department.
-   - Strict validation, duplicate email and register number checks, JWT authentication.
+---
 
-3. **Student Dashboard & Event Browsing**:
-   - Personalized student welcome banner.
-   - Dynamic search by event title, venue, or description.
-   - Category filtering (Technical, Cultural, Sports, Workshop, Hackathon, Seminar, Management, Other).
-   - Attractive event cards with banners, category chips, status pills, date, day, venue, and fee type.
+## 🎯 Key Highlights & Architecture
 
-4. **Complete Event Details Page (Section 6 Requirements)**:
-   - **Basic Info**: Name, Description, Category, Banner, Date, Automatically calculated Day (e.g., Saturday), Start Time, End Time, Reporting Time, Venue, Registration Status.
-   - **Complete Schedule**: Reporting time, Morning break, Lunch break, Evening break, and special session remarks.
-   - **Food & Hospitality**: Clear breakdown of Breakfast, Lunch, and Snacks availability, plus menu/dining hall details.
-   - **Participation & Team Rules**: Individual/Team permissions, Min & Max team size limits, Inter-department rules, Inter-college participation rules, and restrictions.
-   - **Registration Fee & Payment**: Amount, explicit Fee Type (`Per Person` or `Per Team`), calculation explanation, payment instructions, and deadline.
-   - **Registration Timeline**: Start date, Last date, Instructions, and real-time Open/Closed status.
-   - **Numbered Event Rules**: Explicit list of event rules and regulations.
-   - **Coordinator Contacts**: Faculty/Student coordinator Name, Phone number, and Email.
-   - Prominent **Register Now** call-to-action button.
+1. **Clean Login Selection Portal**:
+   - First page displays two distinct authentication pathways: **Student Portal** (with student account creation) and **Admin / Coordinator Portal** (Staff Login).
+   - Staff login uses role-based token routing to send Coordinators to their event workspace and Administrators to the institution-wide governance dashboard.
 
-5. **Student Event Registration**:
-   - Dynamic Individual or Team registration adhering strictly to event rules.
-   - Interactive Team Member addition/removal with live team size counter and min/max team size validation.
-   - Accurate real-time fee calculation (`Per Person` multiplies by total team count; `Per Team` is flat fee).
-   - Strict duplicate prevention for leaders and team members.
+2. **Student Authentication & Multi-Event Registration**:
+   - Fields: Full Name, College Email, Password (hashed using `bcryptjs`), Register Number, and Department.
+   - JWT authentication with secure session persistence in `localStorage`.
+   - **Multi-Event Support**: Students can use a single verified account to register for unlimited distinct events (both individually and as a team leader or team member).
 
-6. **My Registrations**:
-   - Shows private registrations with event name, date, venue, team name, team member list, total fee, payment instructions, and status.
+3. **Complete Event Details Page**:
+   - **Basic Information**: Event Title, Description, Category, Poster, Date, Automatically calculated Day of the Week, Timings, Venue, Open/Closed status.
+   - **Detailed Schedule**: Reporting time, Start/End timings, Morning break, Lunch break, Evening break, and remarks.
+   - **Hospitality & Food**: Itemized details for Breakfast, Lunch, and Evening Snacks with dining venue instructions.
+   - **Participation & Team Rules**: Individual/Team flags, Min/Max team size constraints, Inter-department permissions, Inter-college rules, and custom rules.
+   - **Fee Structure**: Clear pricing with explicit fee type (`Per Person` or `Per Team`), real-time calculated total, and payment instructions.
+   - **Event Rules**: Formatted numbered list of institution regulations.
+   - **Contact Information**: Coordinator Name, Contact Phone, and Email address.
 
-7. **Coordinator Dashboard**:
-   - **Create Event**: Complete 9-section form capturing every detail from Section 6 with automatic Day calculation.
-   - **Manage Events**: View all events, edit full details, toggle registration status (Open/Closed), mark as Completed, and delete with confirmation.
-   - **View Registrations**: Filter registrations by event and review participants.
+4. **Coordinator Dashboard**:
+   - Complete multi-section event creation wizard with live day-of-week calculation.
+   - Event status toggle (Open, Closed, Completed).
+   - Real-time participant roster with team and individual breakdowns.
+   - Edit and delete capabilities with validation.
 
-8. **Admin Dashboard**:
-   - **Clean Summary Cards**: Total Students, Total Events, Total Teams, Total Registrations *(strictly zero charts or graphs)*.
+5. **Institutional Administrator Dashboard**:
+   - Summary statistics: Total Students, Total Events, Total Registered Teams, and Total Unique Registrations.
    - **Event-wise Summary Table**: Shows Individual Registrations, Total Teams, and Total Unique Students.
-   - **Team & Student Count Logic**: 1 Team of 5 members is counted as 1 Team and 5 Students. Unique student counts prevent double counting.
-   - **Master Registrations Table**: Searchable list of all registrations with delete permissions.
-   - **Manage Students Table**: View registered students with account status and activate/deactivate toggles.
+   - **Strictly Professional UI**: Zero unnecessary charts, graphs, or pie diagrams. Clean cards with navy blue theme.
+   - Student directory management with active/inactive toggles.
+   - Master registration manager with cancellation permissions.
 
-9. **Email Confirmation Messages**:
-   - **Event Registration Confirmation Email**: Sent automatically to the student's registered email address upon registering for any event. Includes event name, category, date, day, venue, timings, breaks, food details, team member list, fee breakdown, payment instructions, rules, and coordinator contact details.
-   - **Account Welcome Email**: Sent when a student signs up with their registration information.
-   - **Configurable SMTP / Gmail Support**: Can send real emails directly to Gmail/Outlook inboxes, or output development preview URLs without setup.
+6. **Automated Email Confirmation Service**:
+   - Automated registration confirmation emails dispatched via Nodemailer.
+   - Contains event details, date, venue, team roster, payable fee, payment guidelines, and contact numbers.
+   - Works with real Gmail SMTP (via Google App Password) or falls back to development logging.
 
 ---
 
-## 📁 Project Directory Structure
+## 🛠️ Complete Technology Stack
+
+| Layer | Technologies & Tools |
+| :--- | :--- |
+| **Frontend** | HTML5, Modern CSS3 (CSS Variables, Flexbox, Grid), JavaScript (ES6+), Vite Bundler |
+| **Backend** | Node.js (v18+), Express.js (v5) |
+| **Database** | MongoDB with Mongoose ODM (MongoDB Atlas in Production) |
+| **Security & Auth** | JSON Web Tokens (`jsonwebtoken`), Password Hashing (`bcryptjs`), CORS whitelist |
+| **Email Service** | Nodemailer (SMTP / Gmail App Passwords) |
+| **CI/CD Pipeline** | GitHub Actions (`actions/deploy-pages@v4`, `actions/upload-pages-artifact@v3`) |
+| **Cloud Hosting** | GitHub Pages / Vercel (Frontend), Render (Backend), MongoDB Atlas (Database) |
+
+---
+
+## 📁 Repository Directory Structure
 
 ```text
 college-event-management/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml            # Automated GitHub Actions deployment to GitHub Pages
 ├── client/
-│   ├── index.html        # Complete semantic, responsive single-page portal
-│   ├── style.css         # Navy Blue professional theme (zero chart clutter)
-│   ├── script.js         # Complete frontend controller, JWT handling, CRUD operations
-│   └── package.json
+│   ├── assets/                   # Static assets and icons
+│   ├── dist/                     # Production build output (generated by Vite)
+│   ├── .env.example              # Frontend environment template
+│   ├── .gitignore                # Frontend git ignore rules
+│   ├── index.html                # Semantic HTML5 single-page application
+│   ├── package.json              # Frontend scripts and Vite dependencies
+│   ├── script.js                 # Complete client controller, auth, API calls
+│   ├── style.css                 # Professional Navy Blue theme styling
+│   ├── vercel.json               # SPA routing rewrite configuration for Vercel
+│   └── vite.config.js            # Vite configuration with base: './'
 ├── server/
 │   ├── middleware/
-│   │   └── authMiddleware.js   # JWT token verification and role-based access control
+│   │   └── authMiddleware.js     # JWT verification & role authorization (Student/Coord/Admin)
 │   ├── models/
-│   │   ├── User.js             # User schema (Student, Coordinator, Admin)
-│   │   ├── Event.js            # Comprehensive Event schema with schedule, food, rules
-│   │   └── Registration.js     # Event registration schema with team and fee tracking
+│   │   ├── Event.js              # Comprehensive Event schema with schedule & rules
+│   │   ├── Registration.js       # Event registration schema with team tracking
+│   │   └── User.js               # User model with bcrypt password hashing
 │   ├── routes/
-│   │   ├── authRoutes.js       # Student registration, unified login, profile (/me)
-│   │   ├── eventRoutes.js      # Event CRUD, status toggle, auto Day calculation
-│   │   ├── registrationRoutes.js # Event registration, team validation, student registrations
-│   │   └── adminRoutes.js      # Admin summary counts, students management
-│   ├── .env                    # Environment variables (Mongo URI, Port, JWT Secret)
-│   ├── server.js               # Express application entry point & data seeder
-│   └── package.json
-└── README.md
+│   │   ├── adminRoutes.js        # Admin summary counts, student management, master list
+│   │   ├── authRoutes.js         # Student signup, unified login, profile retrieval
+│   │   ├── eventRoutes.js        # Event CRUD, day calculation, status updates
+│   │   └── registrationRoutes.js # Event registration, team validation, email dispatch
+│   ├── utils/
+│   │   └── emailService.js       # Nodemailer confirmation email generator
+│   ├── .env.example              # Backend environment template (safe for Git)
+│   ├── .gitignore                # Backend git ignore rules (protects .env)
+│   ├── package.json              # Server dependencies and start scripts
+│   └── server.js                 # Express entry point, Atlas DNS fix, initial database seeder
+├── .env.example                  # Root environment setup guide
+├── .gitignore                    # Root git ignore (prevents .env, node_modules from pushing)
+├── README.md                     # Comprehensive project documentation
+└── vercel.json                   # Root Vercel SPA configuration
 ```
 
 ---
 
 ## 🔑 Default Login Credentials
 
-Initial administrator and coordinator accounts are automatically created if they do not exist:
+Upon initial database connection, initial administrator and coordinator accounts are automatically seeded:
 
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Administrator** | `admin@college.com` | `Admin@123` |
-| **Coordinator** | `coordinator@college.com` | `Coordinator@123` |
-| **Student** | Any created student or `student@test.com` | `Password@123` |
+| Role | Email | Password | Access Level |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@college.com` | `Admin@123` | Full institutional dashboard, student & event control |
+| **Coordinator** | `coordinator@college.com` | `Coordinator@123` | Event creation, schedule management, participant rosters |
+| **Student** | Any registered student | *(User created)* | Browse events, view details, register, my registrations |
 
-*(Students can also register directly via the "Create Student Account" button on the portal.)*
+*(Students can register immediately using the **Create Student Account** link on the login portal).*
 
 ---
 
-## ⚙️ How to Run the Application
+## 💻 Local Development Setup
 
-### Prerequisites:
-- **Node.js** (v18 or newer recommended, v22 installed)
-- **MongoDB** (running on `mongodb://127.0.0.1:27017`)
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
+- [MongoDB](https://www.mongodb.com/) (Local Community Server or free MongoDB Atlas URI)
+- Git
 
-### 1. Start the Backend Server:
-
-Open PowerShell and navigate to the `server` directory:
-
-```powershell
-cd "C:\Users\canra\Desktop\college-event-management\server"
-node server.js
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Madhu74188/CampusConnect-College-Event-Management.git
+cd CampusConnect-College-Event-Management
 ```
 
-You should see:
-```text
-MongoDB Connected Successfully to: mongodb://127.0.0.1:27017/collegeEvents
-CampusConnect Server Running at: http://localhost:5000
-API Base URL: http://localhost:5000/api
+### 2. Configure Backend Server
+```bash
+cd server
+npm install
 ```
 
-### 2. Open the Frontend Application:
+Create a `.env` file in the `server/` directory:
+```env
+PORT=5000
+NODE_ENV=development
+MONGO_URI=mongodb://127.0.0.1:27017/collegeEvents
+JWT_SECRET=your_super_secret_jwt_key_2026
+DEFAULT_ADMIN_EMAIL=admin@college.com
+DEFAULT_ADMIN_PASSWORD=Admin@123
+DEFAULT_COORD_EMAIL=coordinator@college.com
+DEFAULT_COORD_PASSWORD=Coordinator@123
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=
+EMAIL_PASS=
+```
 
-The server automatically hosts the static client files directly:
-- Open your web browser and go to: **`http://localhost:5000`**
+Start the backend:
+```bash
+npm run dev
+# or: node server.js
+```
 
-*(Alternatively, you can open `C:\Users\canra\Desktop\college-event-management\client\index.html` using VS Code Live Server or double-click to view in any browser.)*
+### 3. Configure Frontend Client
+In a separate terminal:
+```bash
+cd client
+npm install
+```
+
+Create a `.env` file in the `client/` directory:
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Start the frontend development server:
+```bash
+npm run dev
+```
+
+Open your browser at `http://localhost:5173` (or the URL printed by Vite).
+
+---
+
+## ☁️ Production Deployment Guide
+
+### A. Deploy Backend to Render (Free Web Service)
+
+1. **Create Free MongoDB Atlas Database**:
+   - Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and sign in.
+   - Click **Create a Deployment** and select the free **M0 Sandbox** cluster.
+   - Under **Security -> Database Access**, create a user (e.g., `campus_admin`) and a secure password.
+   - Under **Security -> Network Access**, click **Add IP Address** and select **Allow Access from Anywhere** (`0.0.0.0/0`).
+   - Click **Connect -> Drivers -> Node.js** and copy your connection string:
+     `mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/collegeEvents?retryWrites=true&w=majority`
+
+2. **Deploy to Render**:
+   - Sign up / Log in to [Render](https://render.com/).
+   - Click **New +** -> **Web Service**.
+   - Connect your GitHub repository: `Madhu74188/CampusConnect-College-Event-Management`.
+   - Configure the following settings:
+     - **Name**: `campusconnect-backend`
+     - **Root Directory**: `server`
+     - **Environment**: `Node`
+     - **Build Command**: `npm install`
+     - **Start Command**: `node server.js`
+     - **Instance Type**: `Free`
+   - Under **Environment Variables**, add:
+     - `NODE_ENV`: `production`
+     - `PORT`: `5000`
+     - `MONGO_URI`: `your_mongodb_atlas_connection_string`
+     - `JWT_SECRET`: `your_long_random_jwt_secret`
+     - `DEFAULT_ADMIN_EMAIL`: `admin@college.com`
+     - `DEFAULT_ADMIN_PASSWORD`: `Admin@123`
+     - `DEFAULT_COORD_EMAIL`: `coordinator@college.com`
+     - `DEFAULT_COORD_PASSWORD`: `Coordinator@123`
+     - `CLIENT_URL`: `https://madhu74188.github.io`
+   - Click **Deploy Web Service**.
+   - Your live backend API URL will be: `https://campusconnect-backend.onrender.com`.
+
+---
+
+### B. Deploy Frontend to GitHub Pages (Automated GitHub Actions)
+
+The repository includes a ready-to-run GitHub Actions workflow (`.github/workflows/deploy.yml`).
+
+1. Open your repository on GitHub: `https://github.com/Madhu74188/CampusConnect-College-Event-Management`.
+2. Go to **Settings** -> **Pages** (under Code and automation).
+3. Under **Build and deployment -> Source**, select **GitHub Actions**.
+4. *(Optional)* Under **Settings -> Secrets and variables -> Actions**, add a Repository Secret:
+   - Name: `VITE_API_URL`
+   - Value: `https://campusconnect-backend.onrender.com/api`
+5. Push any commit to `main`, or go to the **Actions** tab and click **Run workflow**.
+6. The action will build the Vite project, upload artifacts, and deploy directly to GitHub Pages.
+7. You will see:
+   - A **Green Tick ✅** in the GitHub Actions tab.
+   - An active **"Visit site"** button under **Deployments** on the repository homepage.
+
+---
+
+### C. Deploy Frontend to Vercel (Alternative)
+
+1. Sign in to [Vercel](https://vercel.com/) and click **Add New... -> Project**.
+2. Import `Madhu74188/CampusConnect-College-Event-Management`.
+3. In Project Settings:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `client`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Under **Environment Variables**, add:
+   - `VITE_API_URL` = `https://campusconnect-backend.onrender.com/api`
+5. Click **Deploy**. Vercel will deploy the frontend with instantaneous CDN edge routing.
+
+---
+
+## 📡 REST API Documentation
+
+### Authentication (`/api/auth`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Public | Register a new student account |
+| `POST` | `/api/auth/login` | Public | Unified login for Students, Coordinators, and Admins |
+| `GET` | `/api/auth/me` | Authenticated | Retrieve current user profile and role |
+
+### Events (`/api/events`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/events` | Public | Fetch all events (supports `?search=` and `?category=`) |
+| `GET` | `/api/events/:id` | Public | Fetch full event details including rules and schedule |
+| `POST` | `/api/events` | Coord / Admin | Create a new event with schedule and food information |
+| `PUT` | `/api/events/:id` | Coord / Admin | Update event details, fees, or limits |
+| `PATCH` | `/api/events/:id/status`| Coord / Admin | Toggle registration status (`open`, `closed`, `completed`) |
+| `DELETE`| `/api/events/:id` | Coord / Admin | Remove event and associated records |
+
+### Registrations (`/api/registrations`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/registrations` | Student | Register for an event (Individual or Team) |
+| `GET` | `/api/my-registrations`| Student | Get registrations belonging to logged-in student |
+| `GET` | `/api/registrations/event/:id` | Coord / Admin | View all participants for a specific event |
+
+### Administration (`/api/admin`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/admin/summary` | Admin | Overall counts & event-wise registration summaries |
+| `GET` | `/api/admin/students`| Admin | Retrieve list of all registered students |
+| `PATCH`| `/api/admin/students/:id/status` | Admin | Activate or suspend student accounts |
+| `GET` | `/api/admin/registrations` | Admin | Master list of all registrations |
+| `DELETE`| `/api/admin/registrations/:id` | Admin | Cancel and remove a registration |
+
+---
+
+## 🔒 Security Best Practices
+
+- **Strict Environment Separation**: Database secrets, JWT keys, and SMTP credentials are stored exclusively in `.env` and are strictly excluded from Git commits via `.gitignore`.
+- **Password Protection**: Passwords are never stored in plaintext; salted with 10 rounds of `bcryptjs`.
+- **JWT Protection**: Protected routes require a valid bearer token verified via `authMiddleware.js`.
+- **Input Validation**: All forms enforce client-side and server-side schema validation to prevent invalid states and injection.
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - feel free to use and adapt for academic and institutional event management.

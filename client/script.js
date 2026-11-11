@@ -3,7 +3,12 @@
  * Full Client Application Logic
  */
 
-const API_URL = "http://localhost:5000/api";
+// Configure API base URL: read dynamic VITE_API_URL in production with localhost fallback
+const API_URL = (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL)
+    ? import.meta.env.VITE_API_URL
+    : (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        ? "http://localhost:5000/api"
+        : "https://campusconnect-backend.onrender.com/api");
 
 // --------------------------------------------------
 // GLOBAL STATE
@@ -2114,3 +2119,44 @@ function initializeApp() {
 
 // Run on page load
 initializeApp();
+
+// --------------------------------------------------
+// GLOBAL WINDOW EXPORTS (For HTML onclick handlers & Bundled Mode)
+// --------------------------------------------------
+if (typeof window !== "undefined") {
+    Object.assign(window, {
+        showLogin,
+        showRegister,
+        backToSelection,
+        logout,
+        switchStudentTab,
+        loadMyRegistrations,
+        backToEventsList,
+        viewEventDetails,
+        openRegistrationModal,
+        closeRegistrationModal,
+        addTeamMemberField,
+        removeTeamMemberField,
+        switchCoordTab,
+        loadCoordinatorRegistrations,
+        editCoordinatorEvent,
+        setEventStatus,
+        deleteCoordinatorEvent,
+        resetCoordinatorForm,
+        addRuleField,
+        removeRuleField,
+        switchAdminTab,
+        loadAdminDashboard,
+        loadAdminRegistrations,
+        loadAdminStudents,
+        loadAdminEvents,
+        resetAdminForm,
+        addAdminRuleField,
+        removeAdminRuleField,
+        editAdminEvent,
+        deleteAdminRegistration,
+        toggleStudentStatus,
+        escapeHTML,
+        initializeApp
+    });
+}

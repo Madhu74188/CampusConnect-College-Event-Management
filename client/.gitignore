@@ -1,0 +1,10 @@
+# Frontend Security & Dependencies
+node_modules/
+dist/
+build/
+.env
+.env.*
+.env.local
+.env.production
+!.env.example
+*.log

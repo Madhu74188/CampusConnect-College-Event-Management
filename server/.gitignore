@@ -1,0 +1,9 @@
+# Backend Security & Dependencies
+node_modules/
+.env
+.env.*
+.env.local
+.env.production
+!.env.example
+*.log
+logs/
