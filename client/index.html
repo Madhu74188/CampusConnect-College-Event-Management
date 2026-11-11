@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect | Professional College Event Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TOP APPLICATION HEADER -->
+    <header class="main-header">
+        <div class="brand">
+            <div class="brand-logo">C</div>
+            <div>
+                <h2>CampusConnect</h2>
+                <p>College Event Management System</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div id="userBadge" class="user-badge" hidden>
+                <span id="userBadgeRole" class="role-pill">Student</span>
+                <span id="userBadgeName" class="user-name">User</span>
+            </div>
+            <button id="logoutBtn" class="logout-btn" onclick="logout()" hidden>Sign Out</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- ========================================================= -->
+        <!-- 1. LOGIN SELECTION SCREEN                                 -->
+        <!-- ========================================================= -->
+        <section id="loginSelection" class="screen-section">
+            <div class="hero-card">
+                <span class="eyebrow">CAMPUS EVENT PORTAL</span>
+                <h1>Discover. Participate. Achieve.</h1>
+                <p>Explore college symposiums, hackathons, cultural festivals, technical workshops and sports tournaments.</p>
+            </div>
+
+            <div class="portal-options-grid">
+                <!-- Option 1: Student Portal -->
+                <div class="portal-card">
+                    <div class="portal-icon student-icon">S</div>
+                    <h2>Student Portal</h2>
+                    <p>Browse college events, view schedules, register individually or as a team, and track your registrations.</p>
+                    <div class="portal-actions">
+                        <button class="primary-btn" onclick="showLogin('student')">Student Login</button>
+                        <button class="secondary-btn text-link" onclick="showRegister()">Create Student Account</button>
+                    </div>
+                </div>
+
+                <!-- Option 2: Admin & Coordinator Portal -->
+                <div class="portal-card">
+                    <div class="portal-icon staff-icon">A</div>
+                    <h2>Admin / Coordinator</h2>
+                    <p>Authorized portal for faculty coordinators and college administrators to manage events and oversee registrations.</p>
+                    <div class="portal-actions">
+                        <button class="primary-btn" onclick="showLogin('staff')">Staff Login</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 2. STUDENT LOGIN SCREEN                                   -->
+        <!-- ========================================================= -->
+        <section id="studentLogin" class="screen-section auth-wrapper" hidden>
+            <div class="form-card auth-card">
+                <div class="auth-header">
+                    <span class="eyebrow">STUDENT PORTAL</span>
+                    <h2>Student Sign In</h2>
+                    <p>Enter your student email and password to access the portal.</p>
+                </div>
+
+                <form id="studentLoginForm">
+                    <div class="form-group">
+                        <label for="studentEmail">College Email Address <span class="required">*</span></label>
+                        <input type="email" id="studentEmail" required placeholder="student@college.com" autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentPassword">Password <span class="required">*</span></label>
+                        <input type="password" id="studentPassword" required placeholder="Enter your password" autocomplete="current-password">
+                    </div>
+
+                    <div id="studentLoginAlert" class="alert-box" hidden></div>
+
+                    <button type="submit" class="primary-btn full-width">Sign In as Student</button>
+                    <button type="button" class="link-btn" onclick="showRegister()">Don't have an account? Create one</button>
+                    <button type="button" class="back-btn" onclick="backToSelection()">← Back to Portal Selection</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 3. STUDENT REGISTRATION SCREEN                            -->
+        <!-- ========================================================= -->
+        <section id="studentRegister" class="screen-section auth-wrapper" hidden>
+            <div class="form-card auth-card">
+                <div class="auth-header">
+                    <span class="eyebrow">NEW STUDENT ACCOUNT</span>
+                    <h2>Student Registration</h2>
+                    <p>Fill in your details to create your student account.</p>
+                </div>
+
+                <form id="studentRegisterForm">
+                    <div class="form-group">
+                        <label for="studentName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="studentName" required placeholder="e.g. Madhumitha C">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="registerEmail" required placeholder="e.g. madhu@college.edu">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Password (Minimum 6 characters) <span class="required">*</span></label>
+                        <input type="password" id="registerPassword" minlength="6" required placeholder="Create secure password">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentRegisterNumber">Register Number <span class="required">*</span></label>
+                            <input type="text" id="studentRegisterNumber" required placeholder="e.g. 732924ITR057">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentDepartment">Department <span class="required">*</span></label>
+                            <input type="text" id="studentDepartment" required placeholder="e.g. Information Technology">
+                        </div>
+                    </div>
+
+                    <div id="studentRegisterAlert" class="alert-box" hidden></div>
+
+                    <button type="submit" class="primary-btn full-width">Create Student Account</button>
+                    <button type="button" class="link-btn" onclick="showLogin('student')">Already registered? Sign in here</button>
+                    <button type="button" class="back-btn" onclick="backToSelection()">← Back to Portal Selection</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 4. STAFF LOGIN SCREEN (ADMIN / COORDINATOR)               -->
+        <!-- ========================================================= -->
+        <section id="staffLogin" class="screen-section auth-wrapper" hidden>
+            <div class="form-card auth-card">
+                <div class="auth-header">
+                    <span class="eyebrow">STAFF AUTHENTICATION</span>
+                    <h2>Admin / Coordinator Login</h2>
+                    <p>Sign in using your assigned staff credentials.</p>
+                </div>
+
+                <form id="staffLoginForm">
+                    <div class="form-group">
+                        <label for="staffEmail">Staff Email Address <span class="required">*</span></label>
+                        <input type="email" id="staffEmail" required placeholder="admin@college.com or coordinator@college.com" autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staffPassword">Password <span class="required">*</span></label>
+                        <input type="password" id="staffPassword" required placeholder="Enter password" autocomplete="current-password">
+                    </div>
+
+                    <div id="staffLoginAlert" class="alert-box" hidden></div>
+
+                    <button type="submit" class="primary-btn full-width">Sign In</button>
+                    <button type="button" class="back-btn" onclick="backToSelection()">← Back to Portal Selection</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 5. STUDENT DASHBOARD                                      -->
+        <!-- ========================================================= -->
+        <section id="studentDashboard" class="screen-section" hidden>
+            <!-- Welcome Header -->
+            <div class="dashboard-banner">
+                <div>
+                    <span class="eyebrow">STUDENT PORTAL</span>
+                    <h1 id="studentWelcome">Welcome, Student</h1>
+                    <p id="studentSubtitle">Browse upcoming events, view schedules, and manage your registrations.</p>
+                </div>
+            </div>
+
+            <!-- Student Sub Navigation -->
+            <div class="dashboard-tabs">
+                <button id="studentTabEvents" class="tab-btn active" onclick="switchStudentTab('events')">Browse Events</button>
+                <button id="studentTabRegistrations" class="tab-btn" onclick="switchStudentTab('registrations')">My Registrations</button>
+            </div>
+
+            <!-- TAB 1: BROWSE EVENTS -->
+            <div id="studentEventsTabContent">
+                <!-- Search and Filter Bar -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <input type="text" id="eventSearchInput" placeholder="Search events by name, venue or description..." oninput="filterEvents()">
+                    </div>
+                    <div class="category-filter">
+                        <label for="eventCategoryFilter">Category:</label>
+                        <select id="eventCategoryFilter" onchange="filterEvents()">
+                            <option value="All">All Categories</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Cultural">Cultural</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Hackathon">Hackathon</option>
+                            <option value="Seminar">Seminar</option>
+                            <option value="Management">Management</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Event Grid -->
+                <div id="studentEventList" class="event-grid"></div>
+            </div>
+
+            <!-- TAB 2: MY REGISTRATIONS -->
+            <div id="studentRegistrationsTabContent" hidden>
+                <div class="section-title-row">
+                    <div>
+                        <h2>My Event Registrations</h2>
+                        <p>View the college events you have registered for.</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadMyRegistrations()">Refresh</button>
+                </div>
+                <div id="myRegistrationsList" class="registrations-grid"></div>
+            </div>
+
+            <!-- VIEW EVENT DETAILS (STANDALONE SUB-VIEW) -->
+            <div id="studentEventDetailsView" class="event-details-view" hidden>
+                <div class="details-top-bar">
+                    <button class="back-btn" onclick="backToEventsList()">← Back to All Events</button>
+                    <span id="detailsStatusBadge" class="status-pill status-open">Registration Open</span>
+                </div>
+
+                <div id="eventDetailsContent"></div>
+            </div>
+
+            <!-- EVENT REGISTRATION MODAL / VIEW -->
+            <div id="registrationModalView" class="modal-overlay" hidden>
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div>
+                            <span class="eyebrow">EVENT REGISTRATION</span>
+                            <h2 id="regModalEventTitle">Register for Event</h2>
+                        </div>
+                        <button type="button" class="modal-close" onclick="closeRegistrationModal()">&times;</button>
+                    </div>
+
+                    <form id="eventRegistrationForm">
+                        <input type="hidden" id="regEventId">
+                        <input type="hidden" id="regEventName">
+
+                        <div class="info-callout">
+                            <div class="callout-row">
+                                <span><strong>Participant / Team Leader:</strong></span>
+                                <span id="regLeaderInfo">-</span>
+                            </div>
+                            <div class="callout-row">
+                                <span><strong>Fee Structure:</strong></span>
+                                <span id="regFeeExplanation">-</span>
+                            </div>
+                            <div class="callout-row" id="regTeamSizeRuleRow" hidden>
+                                <span><strong>Team Size Rules:</strong></span>
+                                <span id="regTeamSizeExplanation">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Registration Type -->
+                        <div class="form-group">
+                            <label for="regTypeSelect">Registration Type <span class="required">*</span></label>
+                            <select id="regTypeSelect" required onchange="handleRegTypeChange()">
+                                <option value="individual">Individual Registration</option>
+                                <option value="team">Team Registration</option>
+                            </select>
+                        </div>
+
+                        <!-- Team Fields -->
+                        <div id="teamRegistrationFields" class="team-fields-box" hidden>
+                            <div class="form-group">
+                                <label for="regTeamName">Team Name <span class="required">*</span></label>
+                                <input type="text" id="regTeamName" placeholder="e.g. Code Warriors">
+                            </div>
+
+                            <div class="team-members-header">
+                                <div>
+                                    <label><strong>Additional Team Members</strong></label>
+                                    <p class="form-hint">You (the team leader) are member #1. Add remaining members below.</p>
+                                </div>
+                                <button type="button" class="secondary-btn btn-sm" onclick="addTeamMemberField()">+ Add Member</button>
+                            </div>
+
+                            <div id="teamMembersList" class="team-members-list"></div>
+
+                            <div class="team-counter-bar">
+                                <span>Total Team Size (including leader): <strong id="teamSizeCounter">1</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Total Fee Summary -->
+                        <div class="fee-summary-card">
+                            <div class="summary-line">
+                                <span>Total Payable Amount:</span>
+                                <strong id="regCalculatedTotalFee">₹0</strong>
+                            </div>
+                            <p id="regPaymentInstructionsText" class="payment-instructions-text"></p>
+                        </div>
+
+                        <div id="eventRegistrationAlert" class="alert-box" hidden></div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn" onclick="closeRegistrationModal()">Cancel</button>
+                            <button type="submit" id="submitRegBtn" class="primary-btn">Confirm & Submit Registration</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 6. COORDINATOR DASHBOARD                                  -->
+        <!-- ========================================================= -->
+        <section id="coordinatorDashboard" class="screen-section" hidden>
+            <div class="dashboard-banner">
+                <div>
+                    <span class="eyebrow">COORDINATOR PORTAL</span>
+                    <h1 id="coordWelcome">Coordinator Event Management</h1>
+                    <p>Create new college events with full schedules, manage existing events, and view student participants.</p>
+                </div>
+            </div>
+
+            <!-- Coordinator Sub Navigation -->
+            <div class="dashboard-tabs">
+                <button id="coordTabManage" class="tab-btn active" onclick="switchCoordTab('manage')">Manage Events</button>
+                <button id="coordTabCreate" class="tab-btn" onclick="switchCoordTab('create')">Create New Event</button>
+                <button id="coordTabRegistrations" class="tab-btn" onclick="switchCoordTab('registrations')">View Registrations</button>
+            </div>
+
+            <!-- TAB 1: MANAGE EVENTS -->
+            <div id="coordManageTabContent">
+                <div class="section-title-row">
+                    <div>
+                        <h2>All Events</h2>
+                        <p>View, edit details, toggle registration status, or mark events as completed.</p>
+                    </div>
+                    <button class="primary-btn" onclick="switchCoordTab('create')">+ Create Event</button>
+                </div>
+
+                <div id="coordEventsList" class="event-cards-table"></div>
+            </div>
+
+            <!-- TAB 2: CREATE / EDIT EVENT FORM -->
+            <div id="coordCreateTabContent" hidden>
+                <div class="form-card full-form-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2 id="coordFormTitle">Create New College Event</h2>
+                            <p>Fill out the complete event form including schedule, breaks, food details, rules, and fee structure.</p>
+                        </div>
+                        <button type="button" id="cancelEditBtn" class="secondary-btn btn-sm" onclick="resetCoordinatorForm()" hidden>Cancel Editing</button>
+                    </div>
+
+                    <form id="coordinatorEventForm">
+                        <input type="hidden" id="editEventId">
+
+                        <!-- SECTION A: BASIC INFORMATION -->
+                        <div class="form-section-header">
+                            <h3>1. Basic Event Information</h3>
+                            <p>Event branding, category, and core description</p>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="cEventName">Event Name <span class="required">*</span></label>
+                                <input type="text" id="cEventName" required placeholder="e.g. National Level Technical Symposium">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cCategory">Event Category <span class="required">*</span></label>
+                                <select id="cCategory" required>
+                                    <option value="Technical">Technical</option>
+                                    <option value="Cultural">Cultural</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Hackathon">Hackathon</option>
+                                    <option value="Seminar">Seminar</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cDescription">Event Description <span class="required">*</span></label>
+                            <textarea id="cDescription" rows="3" required placeholder="Provide an engaging and comprehensive description of the event..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cBannerUrl">Event Banner / Poster Image URL</label>
+                            <input type="url" id="cBannerUrl" placeholder="https://example.com/banner.jpg (Leave empty for default attractive banner)">
+                        </div>
+
+                        <!-- SECTION B: DATE, DAY, TIME & VENUE -->
+                        <div class="form-section-header">
+                            <h3>2. Date, Timing & Venue</h3>
+                            <p>Event date (Day will be calculated automatically), schedule times and venue</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cEventDate">Event Date <span class="required">*</span></label>
+                                <input type="date" id="cEventDate" required onchange="handleDateChange(this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cCalculatedDay">Calculated Day</label>
+                                <input type="text" id="cCalculatedDay" readonly placeholder="Auto-calculated">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cVenue">Event Venue <span class="required">*</span></label>
+                                <input type="text" id="cVenue" required placeholder="e.g. Main Auditorium / Lab 3">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cReportingTime">Reporting Time</label>
+                                <input type="text" id="cReportingTime" placeholder="e.g. 08:45 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cStartTime">Start Time <span class="required">*</span></label>
+                                <input type="text" id="cStartTime" required placeholder="e.g. 09:30 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cEndTime">End Time <span class="required">*</span></label>
+                                <input type="text" id="cEndTime" required placeholder="e.g. 04:30 PM">
+                            </div>
+                        </div>
+
+                        <!-- SECTION C: SCHEDULE & BREAKS -->
+                        <div class="form-section-header">
+                            <h3>3. Schedule & Breaks</h3>
+                            <p>Specify morning break, lunch break, and evening refreshment schedules</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cMorningBreak">Morning Break Timing</label>
+                                <input type="text" id="cMorningBreak" placeholder="e.g. 11:00 AM - 11:15 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cLunchBreak">Lunch Break Timing</label>
+                                <input type="text" id="cLunchBreak" placeholder="e.g. 01:00 PM - 02:00 PM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cEveningBreak">Evening Break Timing</label>
+                                <input type="text" id="cEveningBreak" placeholder="e.g. 03:30 PM - 03:45 PM">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cOtherBreaks">Other Scheduled Breaks / Remarks</label>
+                            <input type="text" id="cOtherBreaks" placeholder="e.g. Valedictory session from 04:00 PM onwards">
+                        </div>
+
+                        <!-- SECTION D: FOOD PROVISIONS -->
+                        <div class="form-section-header">
+                            <h3>4. Food Provisions & Hospitality</h3>
+                            <p>Clear details on whether breakfast, lunch, or snacks are provided</p>
+                        </div>
+
+                        <div class="checkbox-group-row">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cFoodBreakfast">
+                                <span>Breakfast Provided</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cFoodLunch">
+                                <span>Lunch Provided</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cFoodSnacks">
+                                <span>Snacks & Refreshments Provided</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cFoodDetails">Food Details & Menu Information</label>
+                            <input type="text" id="cFoodDetails" placeholder="e.g. Vegetarian feast provided at College Dining Hall; Coffee & tea served during morning break.">
+                        </div>
+
+                        <!-- SECTION E: PARTICIPATION RULES -->
+                        <div class="form-section-header">
+                            <h3>5. Participation & Team Rules</h3>
+                            <p>Define whether individual or team registration is permitted and team size constraints</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cParticipationType">Participation Mode <span class="required">*</span></label>
+                                <select id="cParticipationType" required onchange="handleCoordParticipationChange(this.value)">
+                                    <option value="both">Both Individual & Team</option>
+                                    <option value="individual">Individual Only</option>
+                                    <option value="team">Team Only</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cMinTeamSize">Minimum Team Size</label>
+                                <input type="number" id="cMinTeamSize" min="2" max="20" value="2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cMaxTeamSize">Maximum Team Size</label>
+                                <input type="number" id="cMaxTeamSize" min="2" max="20" value="4">
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group-row">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cInterDeptAllowed" checked>
+                                <span>Inter-Department Teams Allowed</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="cInterCollegeAllowed">
+                                <span>Other College Students Allowed</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cRestrictions">Participation Restrictions / Notes</label>
+                            <input type="text" id="cRestrictions" placeholder="e.g. Open to all undergraduate engineering students; college ID card mandatory.">
+                        </div>
+
+                        <!-- SECTION F: REGISTRATION FEE -->
+                        <div class="form-section-header">
+                            <h3>6. Registration Fee & Payment Instructions</h3>
+                            <p>Coordinator must explicitly specify the amount and whether fee is per person or per team</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cFeeAmount">Registration Fee (₹) <span class="required">*</span></label>
+                                <input type="number" id="cFeeAmount" min="0" step="1" value="0" required placeholder="Enter 0 if free">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cFeeType">Fee Type <span class="required">*</span></label>
+                                <select id="cFeeType" required>
+                                    <option value="per_person">Per Person</option>
+                                    <option value="per_team">Per Team</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cFeeDeadline">Payment Deadline Date</label>
+                                <input type="date" id="cFeeDeadline">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cPaymentInstructions">Payment Instructions</label>
+                            <input type="text" id="cPaymentInstructions" placeholder="e.g. UPI payment to 9876543210@upi or spot payment at reception on arrival.">
+                        </div>
+
+                        <!-- SECTION G: REGISTRATION TIMELINE & STATUS -->
+                        <div class="form-section-header">
+                            <h3>7. Registration Timeline</h3>
+                            <p>Dates when registration opens and closes</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cRegStartDate">Registration Start Date</label>
+                                <input type="date" id="cRegStartDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cRegLastDate">Registration Last Date</label>
+                                <input type="date" id="cRegLastDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cRegStatus">Registration Status <span class="required">*</span></label>
+                                <select id="cRegStatus" required>
+                                    <option value="open">Open</option>
+                                    <option value="closed">Closed</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cRegInstructions">Registration Instructions</label>
+                            <input type="text" id="cRegInstructions" placeholder="e.g. Bring printed or digital registration receipt and college ID card.">
+                        </div>
+
+                        <!-- SECTION H: EVENT RULES -->
+                        <div class="form-section-header">
+                            <h3>8. Event Rules</h3>
+                            <p>Enter the competition and participation rules (each rule will appear numbered on the student page)</p>
+                        </div>
+
+                        <div class="rules-management-box">
+                            <div id="cRulesList" class="rules-input-list"></div>
+                            <button type="button" class="secondary-btn btn-sm" onclick="addRuleField()">+ Add Another Rule</button>
+                        </div>
+
+                        <!-- SECTION I: COORDINATOR CONTACT DETAILS -->
+                        <div class="form-section-header">
+                            <h3>9. Coordinator Contact Details</h3>
+                            <p>Contact details displayed on the student event details page</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="cCoordName">Coordinator Name <span class="required">*</span></label>
+                                <input type="text" id="cCoordName" required placeholder="Prof. Rajesh Kumar">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cCoordPhone">Contact Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="cCoordPhone" required placeholder="+91 98765 43210">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cCoordEmail">Contact Email Address <span class="required">*</span></label>
+                                <input type="email" id="cCoordEmail" required placeholder="coordinator@college.com">
+                            </div>
+                        </div>
+
+                        <div id="coordinatorFormAlert" class="alert-box" hidden></div>
+
+                        <div class="form-actions-bar">
+                            <button type="submit" id="cSubmitBtn" class="primary-btn">Save Event in Database</button>
+                            <button type="button" class="secondary-btn" onclick="resetCoordinatorForm()">Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 3: VIEW REGISTRATIONS -->
+            <div id="coordRegistrationsTabContent" hidden>
+                <div class="section-title-row">
+                    <div>
+                        <h2>Student Registrations</h2>
+                        <p>View registered participants and teams for all events.</p>
+                    </div>
+                    <div class="filter-actions">
+                        <select id="coordEventFilter" onchange="loadCoordinatorRegistrations()">
+                            <option value="">All Events</option>
+                        </select>
+                        <button class="secondary-btn btn-sm" onclick="loadCoordinatorRegistrations()">Refresh</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student / Leader</th>
+                                <th>Register No</th>
+                                <th>Department</th>
+                                <th>Event Name</th>
+                                <th>Type</th>
+                                <th>Team Name</th>
+                                <th>Team Members</th>
+                                <th>Fee</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coordRegistrationsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 7. ADMIN DASHBOARD                                        -->
+        <!-- ========================================================= -->
+        <section id="adminDashboard" class="screen-section" hidden>
+            <div class="dashboard-banner">
+                <div>
+                    <span class="eyebrow">ADMINISTRATION</span>
+                    <h1 id="adminWelcome">College Administrator Dashboard</h1>
+                    <p>Overview of campus events, student accounts, and verified registrations.</p>
+                </div>
+            </div>
+
+            <!-- SUMMARY CARDS (Strictly no charts or graphs) -->
+            <div class="summary-cards-grid">
+                <div class="summary-stat-card">
+                    <span class="stat-label">Total Students</span>
+                    <h2 id="adminStatStudents">0</h2>
+                    <p class="stat-hint">Registered student participants</p>
+                </div>
+
+                <div class="summary-stat-card">
+                    <span class="stat-label">Total Events</span>
+                    <h2 id="adminStatEvents">0</h2>
+                    <p class="stat-hint">Campus events in system</p>
+                </div>
+
+                <div class="summary-stat-card">
+                    <span class="stat-label">Total Teams</span>
+                    <h2 id="adminStatTeams">0</h2>
+                    <p class="stat-hint">Formed competition teams</p>
+                </div>
+
+                <div class="summary-stat-card">
+                    <span class="stat-label">Total Registrations</span>
+                    <h2 id="adminStatRegistrations">0</h2>
+                    <p class="stat-hint">Total event enrollments</p>
+                </div>
+            </div>
+
+            <!-- Admin Sub Navigation Tabs -->
+            <div class="dashboard-tabs">
+                <button id="adminTabSummary" class="tab-btn active" onclick="switchAdminTab('summary')">Event-wise Summary</button>
+                <button id="adminTabRegistrations" class="tab-btn" onclick="switchAdminTab('registrations')">All Registrations</button>
+                <button id="adminTabStudents" class="tab-btn" onclick="switchAdminTab('students')">Manage Students</button>
+                <button id="adminTabEvents" class="tab-btn" onclick="switchAdminTab('events')">Manage Events</button>
+                <button id="adminTabCreate" class="tab-btn" onclick="switchAdminTab('create')">+ Add Event</button>
+            </div>
+
+            <!-- TAB 1: EVENT-WISE SUMMARY TABLE -->
+            <div id="adminSummaryTabContent">
+                <div class="content-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2>Event-wise Registration Summary</h2>
+                            <p>Accurate participant calculations (Individual + Teams + Unique Students without double counting)</p>
+                        </div>
+                        <button class="secondary-btn btn-sm" onclick="loadAdminDashboard()">Refresh Summary</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Event Name</th>
+                                    <th>Category</th>
+                                    <th>Event Date</th>
+                                    <th>Individual Reg.</th>
+                                    <th>Total Teams</th>
+                                    <th>Total Students (Unique)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminEventSummaryTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ALL REGISTRATIONS TABLE -->
+            <div id="adminRegistrationsTabContent" hidden>
+                <div class="content-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2>All Student Registrations</h2>
+                            <p>Complete master list of student event registrations</p>
+                        </div>
+                        <button class="secondary-btn btn-sm" onclick="loadAdminRegistrations()">Refresh</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Register No</th>
+                                    <th>Department</th>
+                                    <th>Email</th>
+                                    <th>Event Name</th>
+                                    <th>Type</th>
+                                    <th>Team Details</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminRegistrationsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: MANAGE STUDENTS -->
+            <div id="adminStudentsTabContent" hidden>
+                <div class="content-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2>Registered Students</h2>
+                            <p>View student accounts and manage account statuses</p>
+                        </div>
+                        <button class="secondary-btn btn-sm" onclick="loadAdminStudents()">Refresh</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Register Number</th>
+                                    <th>Department</th>
+                                    <th>Joined Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminStudentsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: MANAGE EVENTS (ADMIN VIEW) -->
+            <div id="adminEventsTabContent" hidden>
+                <div class="content-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2>Events Administration</h2>
+                            <p>Administrative view of events created in the system</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="primary-btn btn-sm" onclick="switchAdminTab('create')">+ Add New Event</button>
+                            <button class="secondary-btn btn-sm" onclick="loadAdminEvents()">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div id="adminEventsList" class="event-cards-table"></div>
+                </div>
+            </div>
+
+            <!-- TAB 5: ADMIN CREATE / EDIT EVENT FORM -->
+            <div id="adminCreateTabContent" hidden>
+                <div class="form-card full-form-card">
+                    <div class="section-title-row">
+                        <div>
+                            <h2 id="adminFormTitle">Add New College Event</h2>
+                            <p>Create a new college event directly from Administrator portal with complete schedule, food, rules, and fee details.</p>
+                        </div>
+                        <button type="button" id="adminCancelEditBtn" class="secondary-btn btn-sm" onclick="resetAdminForm()" hidden>Cancel Editing</button>
+                    </div>
+
+                    <form id="adminEventForm">
+                        <input type="hidden" id="adminEditEventId">
+
+                        <!-- SECTION A: BASIC INFORMATION -->
+                        <div class="form-section-header">
+                            <h3>1. Basic Event Information</h3>
+                            <p>Event branding, category, and core description</p>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="aEventName">Event Name <span class="required">*</span></label>
+                                <input type="text" id="aEventName" required placeholder="e.g. National Level Technical Symposium">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aCategory">Event Category <span class="required">*</span></label>
+                                <select id="aCategory" required>
+                                    <option value="Technical">Technical</option>
+                                    <option value="Cultural">Cultural</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Hackathon">Hackathon</option>
+                                    <option value="Seminar">Seminar</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aDescription">Event Description <span class="required">*</span></label>
+                            <textarea id="aDescription" rows="3" required placeholder="Provide an engaging and comprehensive description of the event..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aBannerUrl">Event Banner / Poster Image URL</label>
+                            <input type="url" id="aBannerUrl" placeholder="https://example.com/banner.jpg (Leave empty for default attractive banner)">
+                        </div>
+
+                        <!-- SECTION B: DATE, DAY, TIME & VENUE -->
+                        <div class="form-section-header">
+                            <h3>2. Date, Timing & Venue</h3>
+                            <p>Event date (Day will be calculated automatically), schedule times and venue</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aEventDate">Event Date <span class="required">*</span></label>
+                                <input type="date" id="aEventDate" required onchange="handleAdminDateChange(this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aCalculatedDay">Calculated Day</label>
+                                <input type="text" id="aCalculatedDay" readonly placeholder="Auto-calculated">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aVenue">Event Venue <span class="required">*</span></label>
+                                <input type="text" id="aVenue" required placeholder="e.g. Main Auditorium / Lab 3">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aReportingTime">Reporting Time</label>
+                                <input type="text" id="aReportingTime" placeholder="e.g. 08:45 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aStartTime">Start Time <span class="required">*</span></label>
+                                <input type="text" id="aStartTime" required placeholder="e.g. 09:30 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aEndTime">End Time <span class="required">*</span></label>
+                                <input type="text" id="aEndTime" required placeholder="e.g. 04:30 PM">
+                            </div>
+                        </div>
+
+                        <!-- SECTION C: SCHEDULE & BREAKS -->
+                        <div class="form-section-header">
+                            <h3>3. Schedule & Breaks</h3>
+                            <p>Specify morning break, lunch break, and evening refreshment schedules</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aMorningBreak">Morning Break Timing</label>
+                                <input type="text" id="aMorningBreak" placeholder="e.g. 11:00 AM - 11:15 AM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aLunchBreak">Lunch Break Timing</label>
+                                <input type="text" id="aLunchBreak" placeholder="e.g. 01:00 PM - 02:00 PM">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aEveningBreak">Evening Break Timing</label>
+                                <input type="text" id="aEveningBreak" placeholder="e.g. 03:30 PM - 03:45 PM">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aOtherBreaks">Other Scheduled Breaks / Remarks</label>
+                            <input type="text" id="aOtherBreaks" placeholder="e.g. Valedictory session from 04:00 PM onwards">
+                        </div>
+
+                        <!-- SECTION D: FOOD PROVISIONS -->
+                        <div class="form-section-header">
+                            <h3>4. Food Provisions & Hospitality</h3>
+                            <p>Clear details on whether breakfast, lunch, or snacks are provided</p>
+                        </div>
+
+                        <div class="checkbox-group-row">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="aFoodBreakfast">
+                                <span>Breakfast Provided</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="aFoodLunch">
+                                <span>Lunch Provided</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="aFoodSnacks">
+                                <span>Snacks & Refreshments Provided</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aFoodDetails">Food Details & Menu Information</label>
+                            <input type="text" id="aFoodDetails" placeholder="e.g. Vegetarian feast provided at College Dining Hall; Coffee & tea served during morning break.">
+                        </div>
+
+                        <!-- SECTION E: PARTICIPATION RULES -->
+                        <div class="form-section-header">
+                            <h3>5. Participation & Team Rules</h3>
+                            <p>Define whether individual or team registration is permitted and team size constraints</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aParticipationType">Participation Mode <span class="required">*</span></label>
+                                <select id="aParticipationType" required onchange="handleAdminParticipationChange(this.value)">
+                                    <option value="both">Both Individual & Team</option>
+                                    <option value="individual">Individual Only</option>
+                                    <option value="team">Team Only</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aMinTeamSize">Minimum Team Size</label>
+                                <input type="number" id="aMinTeamSize" min="2" max="20" value="2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aMaxTeamSize">Maximum Team Size</label>
+                                <input type="number" id="aMaxTeamSize" min="2" max="20" value="4">
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group-row">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="aInterDeptAllowed" checked>
+                                <span>Inter-Department Teams Allowed</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="aInterCollegeAllowed">
+                                <span>Other College Students Allowed</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aRestrictions">Participation Restrictions / Notes</label>
+                            <input type="text" id="aRestrictions" placeholder="e.g. Open to all undergraduate engineering students; college ID card mandatory.">
+                        </div>
+
+                        <!-- SECTION F: REGISTRATION FEE -->
+                        <div class="form-section-header">
+                            <h3>6. Registration Fee & Payment Instructions</h3>
+                            <p>Specify the amount and whether fee is per person or per team</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aFeeAmount">Registration Fee (₹) <span class="required">*</span></label>
+                                <input type="number" id="aFeeAmount" min="0" step="1" value="0" required placeholder="Enter 0 if free">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aFeeType">Fee Type <span class="required">*</span></label>
+                                <select id="aFeeType" required>
+                                    <option value="per_person">Per Person</option>
+                                    <option value="per_team">Per Team</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aFeeDeadline">Payment Deadline Date</label>
+                                <input type="date" id="aFeeDeadline">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aPaymentInstructions">Payment Instructions</label>
+                            <input type="text" id="aPaymentInstructions" placeholder="e.g. UPI payment to 9876543210@upi or spot payment at reception on arrival.">
+                        </div>
+
+                        <!-- SECTION G: REGISTRATION TIMELINE & STATUS -->
+                        <div class="form-section-header">
+                            <h3>7. Registration Timeline</h3>
+                            <p>Dates when registration opens and closes</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aRegStartDate">Registration Start Date</label>
+                                <input type="date" id="aRegStartDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aRegLastDate">Registration Last Date</label>
+                                <input type="date" id="aRegLastDate">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aRegStatus">Registration Status <span class="required">*</span></label>
+                                <select id="aRegStatus" required>
+                                    <option value="open">Open</option>
+                                    <option value="closed">Closed</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aRegInstructions">Registration Instructions</label>
+                            <input type="text" id="aRegInstructions" placeholder="e.g. Bring printed or digital registration receipt and college ID card.">
+                        </div>
+
+                        <!-- SECTION H: EVENT RULES -->
+                        <div class="form-section-header">
+                            <h3>8. Event Rules</h3>
+                            <p>Enter the competition and participation rules (each rule will appear numbered on the student page)</p>
+                        </div>
+
+                        <div class="rules-management-box">
+                            <div id="aRulesList" class="rules-input-list"></div>
+                            <button type="button" class="secondary-btn btn-sm" onclick="addAdminRuleField()">+ Add Another Rule</button>
+                        </div>
+
+                        <!-- SECTION I: COORDINATOR CONTACT DETAILS -->
+                        <div class="form-section-header">
+                            <h3>9. Coordinator Contact Details</h3>
+                            <p>Contact details displayed on the student event details page</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label for="aCoordName">Coordinator Name <span class="required">*</span></label>
+                                <input type="text" id="aCoordName" required placeholder="Event In-Charge / Coordinator">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aCoordPhone">Contact Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="aCoordPhone" required placeholder="+91 98765 43210">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aCoordEmail">Contact Email Address <span class="required">*</span></label>
+                                <input type="email" id="aCoordEmail" required placeholder="coordinator@college.com">
+                            </div>
+                        </div>
+
+                        <div id="adminFormAlert" class="alert-box" hidden></div>
+
+                        <div class="form-actions-bar">
+                            <button type="submit" id="aSubmitBtn" class="primary-btn">Save Event in Database</button>
+                            <button type="button" class="secondary-btn" onclick="resetAdminForm()">Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <p>© 2026 CampusConnect | Professional College Event Management System</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
