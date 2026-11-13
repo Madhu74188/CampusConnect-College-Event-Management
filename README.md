@@ -2,7 +2,7 @@
 
 [![Deploy Frontend to GitHub Pages](https://github.com/Madhu74188/CampusConnect-College-Event-Management/actions/workflows/deploy.yml/badge.svg)](https://github.com/Madhu74188/CampusConnect-College-Event-Management/actions/workflows/deploy.yml)
 [![GitHub Pages](https://img.shields.io/badge/Live_Portal-GitHub_Pages-2ea44f?style=flat&logo=github)](https://madhu74188.github.io/CampusConnect-College-Event-Management/)
-[![Backend API](https://img.shields.io/badge/Backend_API-Render-46e3b7?style=flat&logo=render)](https://campusconnect-backend.onrender.com/api/health)
+[![Backend API](https://img.shields.io/badge/Backend_API-Render-46e3b7?style=flat&logo=render)](https://campusconnect-college-event-management-w1ll.onrender.com/api/health)
 [![Database](https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=flat&logo=mongodb)](https://www.mongodb.com/atlas)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -13,7 +13,7 @@
 ## 🌐 Live Deployments & Repository Links
 
 - **Frontend Live Portal (GitHub Pages):** [https://madhu74188.github.io/CampusConnect-College-Event-Management/](https://madhu74188.github.io/CampusConnect-College-Event-Management/)
-- **Backend API Base URL (Render):** [https://campusconnect-backend.onrender.com/api](https://campusconnect-backend.onrender.com/api)
+- **Backend API Base URL (Render):** [https://campusconnect-college-event-management-w1ll.onrender.com/api](https://campusconnect-college-event-management-w1ll.onrender.com/api)
 - **GitHub Repository:** [https://github.com/Madhu74188/CampusConnect-College-Event-Management](https://github.com/Madhu74188/CampusConnect-College-Event-Management)
 
 ---
@@ -226,7 +226,7 @@ Open your browser at `http://localhost:5173` (or the URL printed by Vite).
      - `DEFAULT_COORD_PASSWORD`: `Coordinator@123`
      - `CLIENT_URL`: `https://madhu74188.github.io`
    - Click **Deploy Web Service**.
-   - Your live backend API URL will be: `https://campusconnect-backend.onrender.com`.
+   - Your live backend API URL will be: `https://campusconnect-college-event-management-w1ll.onrender.com`.
 
 ---
 
@@ -239,7 +239,7 @@ The repository includes a ready-to-run GitHub Actions workflow (`.github/workflo
 3. Under **Build and deployment -> Source**, select **GitHub Actions**.
 4. *(Optional)* Under **Settings -> Secrets and variables -> Actions**, add a Repository Secret:
    - Name: `VITE_API_URL`
-   - Value: `https://campusconnect-backend.onrender.com/api`
+   - Value: `https://campusconnect-college-event-management-w1ll.onrender.com/api`
 5. Push any commit to `main`, or go to the **Actions** tab and click **Run workflow**.
 6. The action will build the Vite project, upload artifacts, and deploy directly to GitHub Pages.
 7. You will see:
@@ -258,7 +258,7 @@ The repository includes a ready-to-run GitHub Actions workflow (`.github/workflo
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
 4. Under **Environment Variables**, add:
-   - `VITE_API_URL` = `https://campusconnect-backend.onrender.com/api`
+   - `VITE_API_URL` = `https://campusconnect-college-event-management-w1ll.onrender.com/api`
 5. Click **Deploy**. Vercel will deploy the frontend with instantaneous CDN edge routing.
 
 ---

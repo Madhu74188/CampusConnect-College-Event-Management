@@ -40,7 +40,7 @@ jobs:
         working-directory: client
         run: npm run build
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://campusconnect-backend.onrender.com/api' }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://campusconnect-college-event-management-w1ll.onrender.com/api' }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

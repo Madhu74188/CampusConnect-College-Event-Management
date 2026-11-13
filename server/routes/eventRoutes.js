@@ -5,7 +5,7 @@ const { verifyToken, allowRoles } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Helper to determine if registration is active
+
 function getEffectiveStatus(event) {
     if (event.registrationInfo && event.registrationInfo.status) {
         if (event.registrationInfo.status === "closed" || event.registrationInfo.status === "completed") {
