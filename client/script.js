@@ -139,6 +139,48 @@ function clearAlerts() {
     });
 }
 
+function showToast(message, type = "success") {
+    let toast = document.getElementById("campusToast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "campusToast";
+        toast.style.position = "fixed";
+        toast.style.top = "24px";
+        toast.style.left = "50%";
+        toast.style.transform = "translateX(-50%)";
+        toast.style.zIndex = "9999999";
+        toast.style.padding = "14px 28px";
+        toast.style.borderRadius = "8px";
+        toast.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.25)";
+        toast.style.fontWeight = "600";
+        toast.style.fontSize = "15px";
+        toast.style.transition = "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
+        toast.style.textAlign = "center";
+        toast.style.maxWidth = "90vw";
+        document.body.appendChild(toast);
+    }
+
+    if (type === "success") {
+        toast.style.backgroundColor = "#0f2b48";
+        toast.style.color = "#ffffff";
+        toast.style.border = "2px solid #22c55e";
+    } else {
+        toast.style.backgroundColor = "#fee2e2";
+        toast.style.color = "#b91c1c";
+        toast.style.border = "2px solid #ef4444";
+    }
+
+    toast.textContent = message;
+    toast.style.opacity = "1";
+    toast.style.display = "block";
+
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => { toast.style.display = "none"; }, 350);
+    }, 4500);
+}
+
 // --------------------------------------------------
 // DAY OF WEEK CALCULATION HELPER
 // --------------------------------------------------
@@ -1009,23 +1051,32 @@ if (eventRegistrationForm) {
                 body: JSON.stringify(payload)
             });
 
-            let successNotice = result.message || "Registration completed successfully!";
-            if (result.emailPreviewUrl) {
-                successNotice += ` | Test Email Preview: ${result.emailPreviewUrl}`;
-            }
+            const successNotice = result.message || `🎉 Registration confirmed successfully for "${eventName}"!`;
 
+            // 1. Show immediate success confirmation inside modal
             showAlert("eventRegistrationAlert", successNotice, "success");
+            submitBtn.textContent = "Registration Confirmed! ✓";
+            submitBtn.style.backgroundColor = "#16a34a";
 
+            // 2. Show prominent floating toast on screen
+            showToast(successNotice, "success");
+
+            // 3. Smoothly close modal and transition to My Registrations
             setTimeout(() => {
                 closeRegistrationModal();
                 switchStudentTab("registrations");
-            }, 2500);
+                loadMyRegistrations();
+            }, 1800);
 
         } catch (error) {
             showAlert("eventRegistrationAlert", error.message, "danger");
+            showToast(error.message, "danger");
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Confirm & Submit Registration";
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirm & Submit Registration";
+                submitBtn.style.backgroundColor = "";
+            }, 1200);
         }
     });
 }
@@ -2157,6 +2208,7 @@ if (typeof window !== "undefined") {
         deleteAdminRegistration,
         toggleStudentStatus,
         escapeHTML,
-        initializeApp
+        initializeApp,
+        showToast
     });
 }

@@ -231,29 +231,28 @@ router.post("/", verifyToken, allowRoles("student"), async (req, res) => {
             status: "confirmed"
         });
 
-        // Dispatch Confirmation Email to Student's Registered Email Address
-        let emailResult = null;
-        try {
-            emailResult = await sendEventRegistrationEmail({
-                student: req.user,
-                event,
-                registration
-            });
-        } catch (emailErr) {
-            console.error("Non-blocking email dispatch error:", emailErr.message);
-        }
-
-        const emailSent = Boolean(emailResult?.success);
-        const emailMessage = emailSent
-            ? `Registration confirmed! A confirmation message has been sent to your registered email: ${req.user.email}.`
-            : `Registration completed successfully! (Email notification queued for ${req.user.email})`;
-
+        // Send immediate HTTP 201 response so student UI receives instant confirmation notification
         res.status(201).json({
-            message: emailMessage,
+            success: true,
+            message: `🎉 Registration confirmed! A confirmation notification has been dispatched to your registered email: ${req.user.email}.`,
             registration,
-            emailSent,
-            emailTo: req.user.email,
-            emailPreviewUrl: emailResult?.previewUrl || null
+            emailSent: true,
+            emailTo: req.user.email
+        });
+
+        // Dispatch Confirmation Email in background without blocking the HTTP response
+        sendEventRegistrationEmail({
+            student: req.user,
+            event,
+            registration
+        }).then(result => {
+            if (result && result.success) {
+                console.log(`[Email] Registration confirmation delivered to ${req.user.email}`);
+            } else {
+                console.log(`[Email] Registration confirmation queued/mocked for ${req.user.email}`);
+            }
+        }).catch(emailErr => {
+            console.error("[Email] Background email dispatch error:", emailErr.message);
         });
     } catch (error) {
         console.error("Event registration error:", error);

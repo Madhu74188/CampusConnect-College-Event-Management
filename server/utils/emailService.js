@@ -18,59 +18,46 @@ async function getTransporter() {
 
     // 1. If explicit SMTP credentials are provided in .env
     if (emailUser && emailPass && emailUser !== "your_email@gmail.com") {
-        if (emailHost) {
-            transporter = nodemailer.createTransport({
-                host: emailHost,
-                port: emailPort,
-                secure: emailPort === 465,
-                auth: {
-                    user: emailUser,
-                    pass: emailPass
-                }
-            });
-        } else {
+        const transportOptions = emailHost ? {
+            host: emailHost,
+            port: emailPort,
+            secure: emailPort === 465,
+            auth: {
+                user: emailUser,
+                pass: emailPass
+            },
+            connectionTimeout: 5000,
+            greetingTimeout: 5000,
+            socketTimeout: 5000
+        } : {
             // Default to Gmail service
-            transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: emailUser,
-                    pass: emailPass
-                }
-            });
-        }
+            service: "gmail",
+            auth: {
+                user: emailUser,
+                pass: emailPass
+            },
+            connectionTimeout: 5000,
+            greetingTimeout: 5000,
+            socketTimeout: 5000
+        };
+
+        transporter = nodemailer.createTransport(transportOptions);
         console.log(`[Email] Configured SMTP transporter with user: ${emailUser}`);
         return transporter;
     }
 
-    // 2. Fallback: Create Ethereal test account for local testing
-    try {
-        const testAccount = await nodemailer.createTestAccount();
-        transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false,
-            auth: {
-                user: testAccount.user,
-                pass: testAccount.pass
-            }
-        });
-        isEthereal = true;
-        console.log(`[Email] Using Ethereal Test SMTP (${testAccount.user}). Emails can be previewed via generated links.`);
-        return transporter;
-    } catch (etherealErr) {
-        console.warn(`[Email] Could not create Ethereal account: ${etherealErr.message}. Falling back to console logger.`);
-        transporter = {
-            sendMail: async (mailOptions) => {
-                console.log("\n================ [EMAIL CONSOLE PREVIEW] ================");
-                console.log(`To: ${mailOptions.to}`);
-                console.log(`Subject: ${mailOptions.subject}`);
-                console.log(`Text Preview:\n${mailOptions.text ? mailOptions.text.substring(0, 300) : "No text"}...`);
-                console.log("=========================================================\n");
-                return { messageId: `mock-${Date.now()}` };
-            }
-        };
-        return transporter;
-    }
+    // 2. Safe Fallback: Console Logger (Instantaneous, non-blocking on Render/Cloud containers)
+    transporter = {
+        sendMail: async (mailOptions) => {
+            console.log("\n================ [EMAIL CONSOLE PREVIEW] ================");
+            console.log(`To: ${mailOptions.to}`);
+            console.log(`Subject: ${mailOptions.subject}`);
+            console.log(`Text Preview:\n${mailOptions.text ? mailOptions.text.substring(0, 300) : "No text"}...`);
+            console.log("=========================================================\n");
+            return { messageId: `mock-${Date.now()}` };
+        }
+    };
+    return transporter;
 }
 
 /**
@@ -294,7 +281,7 @@ Thank you for participating!
 CampusConnect Team
         `;
 
-        const info = await mailClient.sendMail({
+        const sendPromise = mailClient.sendMail({
             from: fromAddress,
             to: toAddress,
             subject,
@@ -302,13 +289,13 @@ CampusConnect Team
             html: htmlContent
         });
 
-        console.log(`[Email] Registration confirmation sent to ${toAddress}. MessageId: ${info.messageId}`);
-        if (isEthereal) {
-            const previewUrl = nodemailer.getTestMessageUrl(info);
-            console.log(`[Email Preview URL]: ${previewUrl}`);
-            return { success: true, messageId: info.messageId, previewUrl };
-        }
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Email dispatch timed out after 5 seconds")), 5000)
+        );
 
+        const info = await Promise.race([sendPromise, timeoutPromise]);
+
+        console.log(`[Email] Registration confirmation sent to ${toAddress}. MessageId: ${info.messageId}`);
         return { success: true, messageId: info.messageId };
     } catch (error) {
         console.error(`[Email Error] Failed to send registration email to ${student.email}:`, error.message);
@@ -369,13 +356,19 @@ async function sendWelcomeEmail({ student }) {
 </html>
         `;
 
-        const info = await mailClient.sendMail({
+        const sendPromise = mailClient.sendMail({
             from: fromAddress,
             to: toAddress,
             subject,
             text: `Welcome to CampusConnect, ${student.name}!\n\nYour student account has been created with email: ${student.email}.\nRegister Number: ${student.registerNumber}\nDepartment: ${student.department}\n\nVisit: http://localhost:5000`,
             html: htmlContent
         });
+
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Email dispatch timed out after 5 seconds")), 5000)
+        );
+
+        const info = await Promise.race([sendPromise, timeoutPromise]);
 
         console.log(`[Email] Welcome email sent to ${toAddress}. MessageId: ${info.messageId}`);
         return { success: true, messageId: info.messageId };
